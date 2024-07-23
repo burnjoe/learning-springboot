@@ -32,6 +32,19 @@ public class RunRepository {
         runs.add(run);
     }
 
+    // Update existing record given id
+    void update(Run run, Integer id) {
+        Optional<Run> existingRun = findById(id);
+        if (existingRun.isPresent()) {
+            runs.set(runs.indexOf(existingRun.get()), run);
+        }
+    }
+
+    // Delete existing record given id
+    void delete(Integer id) {
+        runs.removeIf(run -> run.id().equals(id));
+    }
+
     // @PostConstruct allows initialization of data
     @PostConstruct
     private void init() {
