@@ -1,5 +1,6 @@
 package com.learning_springboot.learning_springboot.run;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,8 @@ public class RunController {
     Run findById(@PathVariable Integer id) {
         Optional<Run> run = runRepository.findById(id);
         if (run.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found");
+            // Uses created exception
+            throw new RunNotFoundException();
         }
         return run.get();
     }
@@ -40,9 +42,10 @@ public class RunController {
     // POST
     // @RequestBody annotation helps bind http request body to a Run object
     // @ResponseStatus here returns Status Code: 201 when succeed in creation of run
+    // @Valid validates the constraints set to the specific fields of run defined in repository
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    void create(@RequestBody Run run) {
+    void create(@Valid @RequestBody Run run) {
         runRepository.create(run);
     }
 
