@@ -2,6 +2,7 @@ package com.learning_springboot.learning_springboot.run;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +25,11 @@ public class RunRepository {
         return runs.stream()
                 .filter(run -> run.id() == id)
                 .findFirst();
+    }
+
+    // Create one record given request body
+    void create(Run run) {
+        runs.add(run);
     }
 
     // @PostConstruct allows initialization of data

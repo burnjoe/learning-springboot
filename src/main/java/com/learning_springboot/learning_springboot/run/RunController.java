@@ -2,10 +2,7 @@ package com.learning_springboot.learning_springboot.run;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -22,12 +19,14 @@ public class RunController {
         this.runRepository = runRepository;
     }
 
+    // GET ALL
     // This will then use the prepended uri "/api/runs"
     @GetMapping("")
     List<Run> findAll() {
         return runRepository.findAll();
     }
 
+    // GET ONE
     // @PathVariable extracts the id from the placeholder {id} in URI
     @GetMapping("/{id}")
     Run findById(@PathVariable Integer id) {
@@ -37,5 +36,18 @@ public class RunController {
         }
         return run.get();
     }
+
+    // POST
+    // @RequestBody annotation helps bind http request body to a Run object
+    // @ResponseStatus here returns Status Code: 201 when succeed in creation of run
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    void create(@RequestBody Run run) {
+        runRepository.create(run);
+    }
+
+    // PUT
+
+    // DELETE
 
 }
